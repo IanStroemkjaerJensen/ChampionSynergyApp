@@ -11,7 +11,7 @@ namespace RestSharpClient.Models
     public class SummonerModel
     {
         [Display(Name = "Summoner name:")]
-        public string? SummonerName { get; set; }
-        public string? Puuid { get; set; }
+        public string? name { get; set; }
+        public string? puuid { get; set; }
     }
 }

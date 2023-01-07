@@ -11,7 +11,7 @@ namespace ChampionSynergy.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private SummonerController _client = new SummonerController("https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/FasterGun");
+        private SummonerController _client = new SummonerController();
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -30,12 +30,13 @@ namespace ChampionSynergy.Controllers
 
         public IActionResult SearchSummonerName(String summonerName)
         {
-            List<SummonerModel> SummonerWithPuuid = _client.SearchForPuuid(summonerName).ToList();
+            SummonerModel summonerWithPuuid = _client.SearchForPuuid(summonerName);
+            
 
             //SummonerModel? summonerModel =
               //  JsonSerializer.Deserialize<SummonerModel>(jsonString);
 
-            return View(SummonerWithPuuid);
+            return View();
         }
 
 

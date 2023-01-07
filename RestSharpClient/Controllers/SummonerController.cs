@@ -13,19 +13,27 @@ namespace RestSharpClient.Controllers
     public class SummonerController
     {
         private RestClient _client;
+        private readonly String _apiKey = "RGAPI-ef5d7fad-81d0-44d0-896b-1386fc660b40";
+        
 
-        public SummonerController(String restUrl)
+        public SummonerController()
         {
-            _client = new RestClient(restUrl);
+            _client = new RestClient("https://euw1.api.riotgames.com");
         }
 
-        public IEnumerable<SummonerModel> SearchForPuuid(String summonerName)
+        public SummonerModel SearchForPuuid(String summonerName)
         {
-            //sends a GET request to "api/Puuids"
-            RestRequest request = new RestRequest($"{summonerName}");
-            request.AddHeader("X-Riot-Token", "RGAPI-69794964-ca42-4493-86c3-abf9b5d36e5d" );
+            //sends a GET request to ""
+            RestRequest request = new RestRequest($"/lol/summoner/v4/summoners/by-name/agurin");
+            request.AddQueryParameter("api_key", _apiKey);
+            
+            var response = _client.Get(request);
 
-            return _client.Get<IEnumerable<SummonerModel>>(request);
+            string jsonString = response.Content;
+
+            SummonerModel summonerModel = JsonSerializer.Deserialize<SummonerModel>(jsonString);
+
+            return summonerModel;
         }
 
     }
