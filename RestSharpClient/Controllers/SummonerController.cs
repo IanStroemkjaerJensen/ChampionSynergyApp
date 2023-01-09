@@ -13,7 +13,7 @@ namespace RestSharpClient.Controllers
     public class SummonerController
     {
         private RestClient _client;
-        private readonly String _apiKey = "RGAPI-ef5d7fad-81d0-44d0-896b-1386fc660b40";
+        private readonly String _apiKey = "RGAPI-9bc8d206-8af5-4c27-af81-48931e5c3071";
         
 
         public SummonerController()
@@ -24,7 +24,7 @@ namespace RestSharpClient.Controllers
         public SummonerModel SearchForPuuid(String summonerName)
         {
             //sends a GET request to ""
-            RestRequest request = new RestRequest($"/lol/summoner/v4/summoners/by-name/agurin");
+            RestRequest request = new RestRequest($"/lol/summoner/v4/summoners/by-name/{summonerName}");
             request.AddQueryParameter("api_key", _apiKey);
             
             var response = _client.Get(request);

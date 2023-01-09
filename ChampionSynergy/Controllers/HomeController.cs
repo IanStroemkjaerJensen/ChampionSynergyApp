@@ -11,7 +11,8 @@ namespace ChampionSynergy.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private SummonerController _client = new SummonerController();
+        private SummonerController _summonerClient = new SummonerController();
+        private MatchController _matchClient = new MatchController();
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -28,13 +29,22 @@ namespace ChampionSynergy.Controllers
             return View();
         }
 
-        public IActionResult SearchSummonerName(String summonerName)
+        public IActionResult SearchSummoner(SummonerModel summonerModel)
         {
-            SummonerModel summonerWithPuuid = _client.SearchForPuuid(summonerName);
-            
+            SummonerModel summoner = _summonerClient.SearchForPuuid(summonerModel.name);
 
-            //SummonerModel? summonerModel =
-              //  JsonSerializer.Deserialize<SummonerModel>(jsonString);
+            _matchClient.SearchForMatchList(summoner);
+            
+            List<string> matchList = _matchClient.SearchForMatchList(summoner);
+
+            foreach (string matchInList in matchList)
+            {
+                
+                Info info = _matchClient.SearchMatch(matchInList);
+
+               
+            }
+           
 
             return View();
         }
