@@ -25,13 +25,13 @@ namespace RestSharpClient.Controllers
             _client = new RestClient("https://europe.api.riotgames.com");
         }
 
-        public List<string> SearchForMatchList(SummonerModel summoner)
+        public List<string> SearchForMatchList(Summoner summoner)
         {
             //sends a GET request to ""
 
             RestRequest request = new RestRequest($"/lol/match/v5/matches/by-puuid/{summoner.Puuid}/ids");
             request.AddQueryParameter("api_key", _apiKey);
-            request.AddQueryParameter("count", 100);
+            request.AddQueryParameter("count", 95);
 
             var response = _client.Get(request);
 

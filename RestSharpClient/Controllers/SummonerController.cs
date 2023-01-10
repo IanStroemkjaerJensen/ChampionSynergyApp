@@ -21,7 +21,7 @@ namespace RestSharpClient.Controllers
             _client = new RestClient("https://euw1.api.riotgames.com");
         }
 
-        public SummonerModel SearchForPuuid(String summonerName)
+        public Summoner SearchForPuuid(String summonerName)
         {
             //sends a GET request to ""
             RestRequest request = new RestRequest($"/lol/summoner/v4/summoners/by-name/{summonerName}");
@@ -31,7 +31,7 @@ namespace RestSharpClient.Controllers
 
             string jsonString = response.Content;
 
-            SummonerModel summonerModel = JsonSerializer.Deserialize<SummonerModel>(jsonString);
+            Summoner summonerModel = JsonSerializer.Deserialize<Summoner>(jsonString);
 
             return summonerModel;
         }

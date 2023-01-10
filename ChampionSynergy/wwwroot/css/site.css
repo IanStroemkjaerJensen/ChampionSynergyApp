@@ -16,3 +16,12 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.wins-container, .losses-container {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.teammate-wins, .teammate-losses, .enemy-wins, .enemy-losses {
+    display: inline-block;
+}

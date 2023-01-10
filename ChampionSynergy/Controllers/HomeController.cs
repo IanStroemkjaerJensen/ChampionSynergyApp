@@ -38,9 +38,9 @@ namespace ChampionSynergy.Controllers
             return View();
         }
 
-        public IActionResult SearchSummoner(SummonerModel summonerModel)
+        public IActionResult SearchSummoner(Summoner summonerModel)
         {
-            SummonerModel summoner = _summonerClient.SearchForPuuid(summonerModel.Name);
+            Summoner summoner = _summonerClient.SearchForPuuid(summonerModel.Name);
 
             _matchClient.SearchForMatchList(summoner);
             
@@ -126,10 +126,10 @@ namespace ChampionSynergy.Controllers
             winsByEnemy = winsByEnemy.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
             lossesByEnemy = lossesByEnemy.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
 
-            var topSevenWinsByTeammate = winsByTeammate.Take(7);
-            var topSevenLossesByTeammate = lossesByTeammate.Take(7);
-            var topSevenWinsByEnemy = winsByEnemy.Take(7);
-            var topSevenLossesByEnemy = lossesByEnemy.Take(7);
+            var topSevenWinsByTeammate = winsByTeammate.Take(10);
+            var topSevenLossesByTeammate = lossesByTeammate.Take(10);
+            var topSevenWinsByEnemy = winsByEnemy.Take(10);
+            var topSevenLossesByEnemy = lossesByEnemy.Take(10);
 
 
             ViewBag.winsByTeammate = topSevenWinsByTeammate;

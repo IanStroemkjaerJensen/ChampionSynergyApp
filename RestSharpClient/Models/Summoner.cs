@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace RestSharpClient.Models
 {
-    public class SummonerModel
+    public class Summoner
     {
         [Display(Name = "Summoner name:")]
         [JsonPropertyName("name")]

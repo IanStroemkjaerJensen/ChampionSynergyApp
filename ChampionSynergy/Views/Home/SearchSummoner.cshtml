@@ -3,35 +3,41 @@
 *@
 @{
 }
+<div class="wins-container">
+    <label>Teammates you win a lot with</label>
+    <ul class="teammate-wins">
+        @foreach (var item in ViewBag.winsByTeammate)
+        {
+            <li>@item.Key: @item.Value</li>
+        }
+    </ul>
 
-<label>Teammates you win a lot with</label>
-<ul class="Wins by teammates">
-    @foreach (var item in ViewBag.winsByTeammate)
-    {
-        <li>@item.Key: @item.Value</li>
-    }
-</ul>
+    <label>Enemies you win a lot against</label>
+    <ul class="enemy-losses">
+        @foreach (var item in ViewBag.lossesByEnemy)
+        {
+            <li>@item.Key: @item.Value</li>
+        }
+    </ul>
 
-<label>Teammates you lose a lot with</label>
-<ul class="Losses by teammates">
-    @foreach (var item in ViewBag.lossesByTeammate)
-    {
-        <li>@item.Key: @item.Value</li>
-    }
-</ul>
+    
+</div>
 
-<label>Enemies you win a lot against</label>
-<ul class="Losses by Enemies">
-    @foreach (var item in ViewBag.lossesByEnemy)
-    {
-        <li>@item.Key: @item.Value</li>
-    }
-</ul>
+<div class="losses-container">
+    
+    <label>Teammates you lose a lot with</label>
+    <ul class="teammate-losses">
+        @foreach (var item in ViewBag.lossesByTeammate)
+        {
+            <li>@item.Key: @item.Value</li>
+        }
+    </ul>
 
-<label>Enemies you lose a lot against</label>
-<ul class="Wins by enemies">
-    @foreach (var item in ViewBag.winsByEnemy)
-    {
-        <li>@item.Key: @item.Value</li>
-    }
-</ul>
+    <label>Enemies you lose a lot against</label>
+    <ul class="enemy-wins">
+        @foreach (var item in ViewBag.winsByEnemy)
+        {
+            <li>@item.Key: @item.Value</li>
+        }
+    </ul>
+</div>
