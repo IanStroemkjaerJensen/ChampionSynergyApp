@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace RestSharpClient.Models
 {
-    public class Info
+    public class Match
     {
-        [JsonPropertyName("participants")]
-        public List<Participant>? Participants { get; set; }
-
+        [JsonPropertyName("info")]
+        public Info? Info { get; set; }
     }
 }

@@ -8,15 +8,16 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Info = RestSharpClient.Models.Info;
+using Match = RestSharpClient.Models.Match;
 
 namespace RestSharpClient.Controllers
 {
     public class MatchController
     {
         private RestClient _client;
-        private readonly String _apiKey = "RGAPI-9bc8d206-8af5-4c27-af81-48931e5c3071";
-        private List<string> _matchList;
-        private Info _info;   
+        private readonly String _apiKey = "RGAPI-9721845c-9b83-4b1e-a992-815b105e690b";
+        
+          
 
 
         public MatchController()
@@ -28,19 +29,20 @@ namespace RestSharpClient.Controllers
         {
             //sends a GET request to ""
 
-            RestRequest request = new RestRequest($"/lol/match/v5/matches/by-puuid/{summoner.puuid}/ids");
+            RestRequest request = new RestRequest($"/lol/match/v5/matches/by-puuid/{summoner.Puuid}/ids");
             request.AddQueryParameter("api_key", _apiKey);
+            request.AddQueryParameter("count", 20);
 
             var response = _client.Get(request);
 
-            string jsonString = response.Content;   
+            string jsonString = response.Content;
 
-            _matchList = JsonSerializer.Deserialize<List<string>>(jsonString);
+            List<string> _matchList = JsonSerializer.Deserialize<List<string>>(jsonString);
 
             return _matchList;
         }
 
-        public Info SearchMatch(String matches)
+        public Match SearchMatch(String matches)
         {
 
             //sends a GET request to ""
@@ -52,9 +54,9 @@ namespace RestSharpClient.Controllers
 
             string jsonString = response.Content;
 
-            _info = JsonSerializer.Deserialize<Info>(jsonString);
+            Match match = JsonSerializer.Deserialize<Match>(jsonString);
 
-            return _info;
+            return match;
         }
 
     }
