@@ -31,7 +31,7 @@ namespace RestSharpClient.Controllers
 
             RestRequest request = new RestRequest($"/lol/match/v5/matches/by-puuid/{summoner.Puuid}/ids");
             request.AddQueryParameter("api_key", _apiKey);
-            request.AddQueryParameter("count", 20);
+            request.AddQueryParameter("count", 100);
 
             var response = _client.Get(request);
 

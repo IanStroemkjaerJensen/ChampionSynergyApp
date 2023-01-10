@@ -119,10 +119,24 @@ namespace ChampionSynergy.Controllers
 
                 }
 
-
-
-
             }
+
+            winsByTeammate = winsByTeammate.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+            lossesByTeammate = lossesByTeammate.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+            winsByEnemy = winsByEnemy.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+            lossesByEnemy = lossesByEnemy.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+
+            var topSevenWinsByTeammate = winsByTeammate.Take(7);
+            var topSevenLossesByTeammate = lossesByTeammate.Take(7);
+            var topSevenWinsByEnemy = winsByEnemy.Take(7);
+            var topSevenLossesByEnemy = lossesByEnemy.Take(7);
+
+
+            ViewBag.winsByTeammate = topSevenWinsByTeammate;
+            ViewBag.lossesByTeammate = topSevenLossesByTeammate;
+            ViewBag.winsByEnemy = topSevenWinsByEnemy;
+            ViewBag.lossesByEnemy = topSevenLossesByEnemy;
+
 
             return View();
         }
