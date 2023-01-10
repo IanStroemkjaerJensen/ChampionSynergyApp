@@ -14,7 +14,14 @@ namespace ChampionSynergy.Controllers
         private SummonerController _summonerClient = new SummonerController();
         private MatchController _matchClient = new MatchController();
         
-        private int? teammatesId;
+        private int? teamId;
+
+        Dictionary<string, int> winsByTeammate = new Dictionary<string, int>();
+        Dictionary<string, int> lossesByTeammate = new Dictionary<string, int>();
+
+        Dictionary<string, int> winsByEnemy = new Dictionary<string, int>();
+        Dictionary<string, int> lossesByEnemy = new Dictionary<string, int>();
+
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -44,17 +51,19 @@ namespace ChampionSynergy.Controllers
                 Match match = new Match();
                 match = _matchClient.SearchMatch(matchInList);
 
+
+
                 for (int i = 0; i < match.Info.Participants.Count; i++)
                 {
                     if (match.Info.Participants[i].SummonerName == summonerModel.Name)
                     {
-                        int? teammatesId = match.Info.Participants[i].TeamId;
+                        teamId = match.Info.Participants[i].TeamId;
 
                         match.Info.Participants.RemoveAt(i);
                         continue;
                     }
 
-                    if (match.Info.Participants[i].TeamId == teammatesId)
+                    if (match.Info.Participants[i].TeamId == teamId)
                     {
                         Teammate teammate = new Teammate();
                         teammate.TeamId = match.Info.Participants[i].TeamId;
@@ -62,11 +71,26 @@ namespace ChampionSynergy.Controllers
                         teammate.ChampionName = match.Info.Participants[i].ChampionName;
                         teammate.Win = match.Info.Participants[i].Win;
 
-                        List<Teammate> teammates = new List<Teammate>();
-                        teammates.Add(teammate);
+                        if (teammate.Win == true)
+                        {
+                            if (!winsByTeammate.ContainsKey(teammate.ChampionName))
+                            {
+                                winsByTeammate[teammate.ChampionName] = 0;
+                            }
+                            winsByTeammate[teammate.ChampionName]++;
+                        }
+
+                        if (teammate.Win != true)
+                        {
+                            if (!lossesByTeammate.ContainsKey(teammate.ChampionName))
+                            {
+                                lossesByTeammate[teammate.ChampionName] = 0;
+                            }
+                            lossesByTeammate[teammate.ChampionName]++;
+                        }
                     }
 
-                    if (match.Info.Participants[i].TeamId != teammatesId)
+                    if (match.Info.Participants[i].TeamId != teamId)
                     {
                         Enemy enemy = new Enemy();
                         enemy.TeamId = match.Info.Participants[i].TeamId;
@@ -74,8 +98,23 @@ namespace ChampionSynergy.Controllers
                         enemy.ChampionName = match.Info.Participants[i].ChampionName;
                         enemy.Win = match.Info.Participants[i].Win;
 
-                        List<Enemy> enemies = new List<Enemy>();
-                        enemies.Add(enemy);
+                        if (enemy.Win == true)
+                        {
+                            if (!winsByEnemy.ContainsKey(enemy.ChampionName))
+                            {
+                                winsByEnemy[enemy.ChampionName] = 0;
+                            }
+                            winsByEnemy[enemy.ChampionName]++;
+                        }
+
+                        if (enemy.Win != true)
+                        {
+                            if (!lossesByEnemy.ContainsKey(enemy.ChampionName))
+                            {
+                                lossesByEnemy[enemy.ChampionName] = 0;
+                            }
+                            lossesByEnemy[enemy.ChampionName]++;
+                        }
                     }
 
                 }
