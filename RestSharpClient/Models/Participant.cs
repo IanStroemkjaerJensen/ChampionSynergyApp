@@ -20,5 +20,8 @@ namespace RestSharpClient.Models
 
         [JsonPropertyName("win")]
         public Boolean? Win { get; set; }
+
+        [JsonPropertyName("teamPosition")]
+        public string? TeamPosition { get; set; }
     }
 }

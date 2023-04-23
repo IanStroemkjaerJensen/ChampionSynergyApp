@@ -12,16 +12,61 @@ html {
   position: relative;
   min-height: 100%;
 }
-
-body {
-  margin-bottom: 60px;
+.body {
+    overflow: auto;
+    padding: 10px;
 }
 
-.wins-container, .losses-container {
+.container-flex {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
-.teammate-wins, .teammate-losses, .enemy-wins, .enemy-losses {
-    display: inline-block;
+div.wins-by-teammates-container,
+div.losses-by-enemies-container,
+div.losses-by-teammates-container,
+div.wins-by-enemies-container {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: inherit;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
+
+div.wins-by-teammates-container caption,
+div.losses-by-enemies-container caption,
+div.wins-by-enemies-container caption,
+div.losses-by-teammates-container caption {
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 10px;
+    background-color: #f2f2f2;
+    caption-side: top;
+    text-align: center;
+}
+
+th {
+    font-weight: bold;
+    text-align: left;
+    background-color: #f2f2f2;
+    padding: 10px;
+}
+
+td {
+    padding: 10px;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+footer-container {
+    background-color: white;
+}
+

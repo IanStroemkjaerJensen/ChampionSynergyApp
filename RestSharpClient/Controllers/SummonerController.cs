@@ -13,7 +13,7 @@ namespace RestSharpClient.Controllers
     public class SummonerController
     {
         private RestClient _client;
-        private readonly String _apiKey = "RGAPI-9721845c-9b83-4b1e-a992-815b105e690b";
+        private readonly String _apiKey = "RGAPI-ab3a62d1-5fb1-4bb8-a0c8-39703ecf8a86";
         
 
         public SummonerController()

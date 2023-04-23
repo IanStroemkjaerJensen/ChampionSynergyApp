@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using RestSharp;
 using RestSharpClient.Controllers;
 using RestSharpClient.Models;
+using System;
 using System.Diagnostics;
+using System.Linq.Expressions;
+using System.Collections;
 
 namespace ChampionSynergy.Controllers
 {
@@ -16,12 +19,14 @@ namespace ChampionSynergy.Controllers
         
         private int? teamId;
 
-        Dictionary<string, int> winsByTeammate = new Dictionary<string, int>();
-        Dictionary<string, int> lossesByTeammate = new Dictionary<string, int>();
 
-        Dictionary<string, int> winsByEnemy = new Dictionary<string, int>();
-        Dictionary<string, int> lossesByEnemy = new Dictionary<string, int>();
+        List<Teammate> teammates = new List<Teammate>();
+        List<Enemy> enemies = new List<Enemy>();
 
+        List<Teammate> teammatesSortedByWins = new List<Teammate>();
+        List<Enemy> enemiesSortedByWins = new List<Enemy>();
+        List<Teammate> teammatesSortedByLosses = new List<Teammate>();
+        List<Enemy> enemiesSortedByLosses = new List<Enemy>();
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -65,29 +70,46 @@ namespace ChampionSynergy.Controllers
 
                     if (match.Info.Participants[i].TeamId == teamId)
                     {
+
                         Teammate teammate = new Teammate();
                         teammate.TeamId = match.Info.Participants[i].TeamId;
                         teammate.SummonerName = match.Info.Participants[i].SummonerName;
                         teammate.ChampionName = match.Info.Participants[i].ChampionName;
                         teammate.Win = match.Info.Participants[i].Win;
+                        teammate.Role = match.Info.Participants[i].TeamPosition;
+                        teammate.Wins = 0;
+                        teammate.Losses = 0;
+                        teammate.Played = 0;
 
                         if (teammate.Win == true)
                         {
-                            if (!winsByTeammate.ContainsKey(teammate.ChampionName))
+                            Teammate existingTeammate = teammates.FirstOrDefault(t => t.ChampionName == teammate.ChampionName);
+                            if (existingTeammate != null)
                             {
-                                winsByTeammate[teammate.ChampionName] = 0;
+                                existingTeammate.Wins++;
+                                existingTeammate.Played++;
+                                }
+                            else
+                            {
+                                teammates.Add(teammate);
                             }
-                            winsByTeammate[teammate.ChampionName]++;
-                        }
 
+                        }
+                      
                         if (teammate.Win != true)
                         {
-                            if (!lossesByTeammate.ContainsKey(teammate.ChampionName))
+                                     
+                                Teammate existingTeammate = teammates.FirstOrDefault(t => t.ChampionName == teammate.ChampionName);
+                            if (existingTeammate != null)
                             {
-                                lossesByTeammate[teammate.ChampionName] = 0;
+                                existingTeammate.Losses++;
+                                existingTeammate.Played++;
+                                }
+                            else
+                            {
+                                teammates.Add(teammate);
                             }
-                            lossesByTeammate[teammate.ChampionName]++;
-                        }
+                        }                             
                     }
 
                     if (match.Info.Participants[i].TeamId != teamId)
@@ -97,59 +119,63 @@ namespace ChampionSynergy.Controllers
                         enemy.SummonerName = match.Info.Participants[i].SummonerName;
                         enemy.ChampionName = match.Info.Participants[i].ChampionName;
                         enemy.Win = match.Info.Participants[i].Win;
+                        enemy.Role = match.Info.Participants[i].TeamPosition;
+                        enemy.Wins = 0;
+                        enemy.Losses = 0;
+                        enemy.Played = 0;   
+
 
                         if (enemy.Win == true)
                         {
-                            if (!winsByEnemy.ContainsKey(enemy.ChampionName))
+                            Enemy existingEnemy = enemies.FirstOrDefault(e => e.ChampionName == enemy.ChampionName);
+                            if (existingEnemy != null)
                             {
-                                winsByEnemy[enemy.ChampionName] = 0;
+                                existingEnemy.Wins++;
+                                existingEnemy.Played++;
                             }
-                            winsByEnemy[enemy.ChampionName]++;
+                            else
+                            {
+                                enemies.Add(enemy);
+                            }
                         }
 
                         if (enemy.Win != true)
                         {
-                            if (!lossesByEnemy.ContainsKey(enemy.ChampionName))
+                            Enemy existingEnemy = enemies.FirstOrDefault(e => e.ChampionName == enemy.ChampionName);
+                            if (existingEnemy != null)
                             {
-                                lossesByEnemy[enemy.ChampionName] = 0;
+                                existingEnemy.Losses++;
+                                existingEnemy.Played++; 
                             }
-                            lossesByEnemy[enemy.ChampionName]++;
+                            else
+                            {
+                                enemies.Add(enemy);
+                            }
                         }
+
                     }
 
                 }
 
             }
 
-            winsByTeammate = winsByTeammate.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
-            lossesByTeammate = lossesByTeammate.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
-            winsByEnemy = winsByEnemy.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
-            lossesByEnemy = lossesByEnemy.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+            teammatesSortedByWins = teammates.OrderByDescending(t => t.Wins).ToList();
+            enemiesSortedByLosses = enemies.OrderByDescending(t => t.Losses).ToList();
+            enemiesSortedByWins = enemies.OrderByDescending(t => t.Wins).ToList();
+            teammatesSortedByLosses = teammates.OrderByDescending(t => t.Losses).ToList();
 
-            var topSevenWinsByTeammate = winsByTeammate.Take(10);
-            var topSevenLossesByTeammate = lossesByTeammate.Take(10);
-            var topSevenWinsByEnemy = winsByEnemy.Take(10);
-            var topSevenLossesByEnemy = lossesByEnemy.Take(10);
-
-
-            ViewBag.winsByTeammate = topSevenWinsByTeammate;
-            ViewBag.lossesByTeammate = topSevenLossesByTeammate;
-            ViewBag.winsByEnemy = topSevenWinsByEnemy;
-            ViewBag.lossesByEnemy = topSevenLossesByEnemy;
-
+            var topSevenWinsByTeammates = teammatesSortedByWins.Take(7);
+            var topSevenLossesByEnemies = enemiesSortedByLosses.Take(7);
+            var topSevenWinsByEnemies = enemiesSortedByWins.Take(7);
+            var topSevenLossesByTeammates = teammatesSortedByLosses.Take(7);
+            
+            ViewBag.winsByTeammates = topSevenWinsByTeammates;
+            ViewBag.lossesByEnemies = topSevenLossesByEnemies;
+            ViewBag.winsByEnemies = topSevenWinsByEnemies;
+            ViewBag.lossesByTeammates = topSevenLossesByTeammates;
 
             return View();
         }
-
-
-
-
-
-
-
-
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

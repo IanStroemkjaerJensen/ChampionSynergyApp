@@ -15,5 +15,13 @@ namespace RestSharpClient.Models
         public string? ChampionName { get; set; }
 
         public Boolean? Win { get; set; }
+
+        public string Role { get; set; }
+
+        public int? Wins { get; set; }  
+
+        public int? Losses { get; set; }    
+
+        public int? Played { get; set; }    
     }
 }

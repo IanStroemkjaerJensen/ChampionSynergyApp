@@ -3,41 +3,197 @@
 *@
 @{
 }
-<div class="wins-container">
-    <label>Teammates you win a lot with</label>
-    <ul class="teammate-wins">
-        @foreach (var item in ViewBag.winsByTeammate)
-        {
-            <li>@item.Key: @item.Value</li>
-        }
-    </ul>
 
-    <label>Enemies you win a lot against</label>
-    <ul class="enemy-losses">
-        @foreach (var item in ViewBag.lossesByEnemy)
-        {
-            <li>@item.Key: @item.Value</li>
-        }
-    </ul>
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Teammate and Enemy Statistics</title>
+    <style>
+    <style>
+    </style>
+</head>
 
-    
+<body>
+<div class="container-flex">
+<div class="wins-by-teammates-container">
+    <table>
+        <caption>Teammates you win a lot with</caption>
+        <thead>
+            <tr>
+                <th>Vs.</th>
+                <th>Champion Name</th>
+                <th>Played</th>
+                <th>Wins</th>
+                <th>Winrate</th>
+            </tr>
+        </thead>
+
+                
+
+        <tbody>
+            @foreach (var teammate in ViewBag.winsByTeammates)
+            {
+                        
+                        <tr>
+                    <td>
+                        <img src="@($"/championPictures/{teammate.ChampionName}.jpg")" width="50" height="50">
+                    </td>
+                    <td>@teammate.ChampionName</td>
+                    <td>@teammate.Played</td>
+                    <td>@teammate.Wins</td>
+                    <td>                                                   
+                            <div class="progress">
+                                    <div class="progress-bar" 
+                                    role="progressbar" 
+                                    style="@($"width: {(teammate.Wins * 100.0) / teammate.Played:0}%;")" 
+                                    aria-valuenow="0" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="100"
+                                    >@($"{(teammate.Wins * 100.0) / teammate.Played:0}%")</div>
+                            </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
-<div class="losses-container">
-    
-    <label>Teammates you lose a lot with</label>
-    <ul class="teammate-losses">
-        @foreach (var item in ViewBag.lossesByTeammate)
-        {
-            <li>@item.Key: @item.Value</li>
-        }
-    </ul>
+        
 
-    <label>Enemies you lose a lot against</label>
-    <ul class="enemy-wins">
-        @foreach (var item in ViewBag.winsByEnemy)
-        {
-            <li>@item.Key: @item.Value</li>
-        }
-    </ul>
+        <div class="losses-by-enemies-container">
+    <table>
+        <caption>Enemies you win a lot against</caption>
+        <thead>
+            <tr>
+                <th>Vs.</th>
+                <th>Champion Name</th>
+                <th>Played</th>
+                <th>Wins</th>
+                <th>Winrate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var enemy in ViewBag.lossesByEnemies)
+            {
+                <tr>  
+                    <td>
+                        <img src="@($"/championPictures/{enemy.ChampionName}.jpg")" width="50" height="50">
+                    </td>
+                    <td>@enemy.ChampionName</td>
+                    <td>@enemy.Played</td>
+                    <td>@enemy.Losses</td>
+                    <td>
+                            <div class="progress">
+                                    <div class="progress-bar" 
+                                    role="progressbar" 
+                                    style="@($"width: {(enemy.Losses * 100.0) / enemy.Played:0}%;")" 
+                                    aria-valuenow="0" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="100"
+                                    >@($"{(enemy.Losses * 100.0) / enemy.Played:0}%")</div>
+                            </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
+
+<div class="losses-by-teammates-container">
+    <table>
+        <caption>Teammates you lose a lot with</caption>
+        <thead>
+            <tr>
+                <th>Vs.</th>
+                <th>Champion Name</th>
+                <th>Played</th>
+                <th>Losses</th>
+                <th>Winrate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var teammate in ViewBag.lossesByTeammates)
+            {
+                <tr>
+                    <td>
+                        <img src="@($"/championPictures/{teammate.ChampionName}.jpg")" width="50" height="50">
+                    </td>
+                    <td>@teammate.ChampionName</td>
+                    <td>@teammate.Played</td>
+                    <td>@teammate.Losses</td>
+                    <td>
+                            <div class="progress">
+                                    <div class="progress-bar" 
+                                    role="progressbar" 
+                                    style="@($"width: {(teammate.Wins * 100.0) / teammate.Played:0}%;")" 
+                                    aria-valuenow="0" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="100">
+                                    @($"{(teammate.Wins * 100.0) / teammate.Played:0}%")</div>
+                            </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="wins-by-enemies-container">
+    <table>
+        <caption>Enemies you lose a lot against</caption>
+        <thead>
+            <tr>
+                <th>Vs.</th>
+                <th>Champion Name</th>
+                <th>Played</th>
+                <th>Losses</th>
+                <th>Winrate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var enemy in ViewBag.winsByEnemies)
+            {
+                <tr>
+                    <td>
+                            <img src="@($"/championPictures/{enemy.ChampionName}.jpg")" width="50" height="50">
+                    </td>
+                    <td>@enemy.ChampionName</td>
+                    <td>@enemy.Played</td>
+                    <td>@enemy.Wins</td>
+                    <td>
+                            <div class="progress">
+                                    <div class="progress-bar" 
+                                    role="progressbar" 
+                                    style="@($"width: {(enemy.Losses * 100.0) / enemy.Played:0}%;")" 
+                                    aria-valuenow="0" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="100">
+                                        @($"{(enemy.Losses * 100.0) / enemy.Played:F0}%")
+                                    </div>
+                            </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous" async></script>
+</body>
+<footer class="border-top footer text-muted">
+    <div class="footer-container">
+        &copy; 2022 - ChampionSynergy -
+        ChampionSynergy isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties.
+        Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
+    </div>
+</footer>
+</html> 
+
+
+
+
