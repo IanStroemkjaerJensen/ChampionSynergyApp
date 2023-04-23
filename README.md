@@ -26,9 +26,9 @@ start of the file. Do the same in the SummonerController.cs file.
 4) click ctrl + f5 to start the project without debuggin. 
 
 # Things i learned
-C#
-Web communication via http
-MVC
-HTML & CSS
-Razor syntax
-REST api
+- C#
+- Web communication via http
+- HTML & CSS
+- MVC
+- Razor syntax
+- REST api
