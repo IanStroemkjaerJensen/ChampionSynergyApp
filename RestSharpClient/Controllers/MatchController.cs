@@ -15,10 +15,8 @@ namespace RestSharpClient.Controllers
     public class MatchController
     {
         private RestClient _client;
-        private readonly String _apiKey = "RGAPI-ab3a62d1-5fb1-4bb8-a0c8-39703ecf8a86";
+        private readonly string _apiKeyFromConfig = File.ReadAllText(@"C:\\Users\\Iancs\\source\\repos\\ChampionSynergyApp\\RestSharpClient\\Config\\ApiKey.txt");
         
-          
-
 
         public MatchController()
         {
@@ -30,7 +28,8 @@ namespace RestSharpClient.Controllers
             //sends a GET request to ""
 
             RestRequest request = new RestRequest($"/lol/match/v5/matches/by-puuid/{summoner.Puuid}/ids");
-            request.AddQueryParameter("api_key", _apiKey);
+
+            request.AddQueryParameter("api_key", _apiKeyFromConfig);
             request.AddQueryParameter("count", 95);
 
             var response = _client.Get(request);
@@ -48,7 +47,7 @@ namespace RestSharpClient.Controllers
             //sends a GET request to ""
 
             RestRequest request = new RestRequest($"/lol/match/v5/matches/{matches}");
-            request.AddQueryParameter("api_key", _apiKey);
+            request.AddQueryParameter("api_key", _apiKeyFromConfig);
 
             var response = _client.Get(request);
 

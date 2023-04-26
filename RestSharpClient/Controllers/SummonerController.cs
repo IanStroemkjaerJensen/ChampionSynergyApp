@@ -13,7 +13,7 @@ namespace RestSharpClient.Controllers
     public class SummonerController
     {
         private RestClient _client;
-        private readonly String _apiKey = "RGAPI-ab3a62d1-5fb1-4bb8-a0c8-39703ecf8a86";
+        private readonly string _apiKeyFromConfig = File.ReadAllText(@"C:\\Users\\Iancs\\source\\repos\\ChampionSynergyApp\\RestSharpClient\\Config\\ApiKey.txt");
         
 
         public SummonerController()
@@ -25,7 +25,7 @@ namespace RestSharpClient.Controllers
         {
             //sends a GET request to ""
             RestRequest request = new RestRequest($"/lol/summoner/v4/summoners/by-name/{summonerName}");
-            request.AddQueryParameter("api_key", _apiKey);
+            request.AddQueryParameter("api_key", _apiKeyFromConfig);
             
             var response = _client.Get(request);
 
