@@ -13,7 +13,7 @@ namespace RestSharpClient.Controllers
     public class SummonerController
     {
         private RestClient _client;
-        private readonly string _apiKeyFromConfig = File.ReadAllText(@"C:\\Users\\Iancs\\source\\repos\\ChampionSynergyApp\\RestSharpClient\\Config\\ApiKey.txt");
+        private readonly string _apiKeyFromConfig = File.ReadAllText(@"C:\\Users\\Iancs\\source\\repos\\ChampionSynergyApp\\RestSharpClient\\Config\\ApiKeyExample.txt");
         
 
         public SummonerController()
