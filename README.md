@@ -28,6 +28,7 @@ open the project in visual studio
 - Web communication via http
 - HTML & CSS
 - MVC
-- REST api
+- REST Api
+- Rest Client
 - Razor syntax
 - Deserialization
