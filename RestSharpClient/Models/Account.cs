@@ -9,14 +9,14 @@ using System.Xml.Linq;
 
 namespace RestSharpClient.Models
 {
-    public class Summoner
+    public class Account
     {
         [Display(Name = "Summoner name:")]
-        [JsonPropertyName("name")]
+        [JsonPropertyName("gameName")]
         public string? Name { get; set; }
 
         [Display(Name = "Tagline:")]
-        [JsonPropertyName("tagline")]
+        [JsonPropertyName("tagLine")]
         public string? Tagline { get; set; }
 
         [JsonPropertyName("puuid")]

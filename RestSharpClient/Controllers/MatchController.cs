@@ -15,7 +15,7 @@ namespace RestSharpClient.Controllers
     public class MatchController
     {
         private RestClient _client;
-        private readonly string _apiKeyFromConfig = File.ReadAllText(@"C:\\Users\\Iancs\\source\\repos\\ChampionSynergyApp\\RestSharpClient\\Config\\ApiKeyExample.txt");
+        private readonly string _apiKeyFromConfig = File.ReadAllText(@"C:\\Users\\Ian\\source\\repos\\ChampionSynergyApp\\RestSharpClient\\Config\\ApiKeyExample.txt");
         
 
         public MatchController()
@@ -23,11 +23,11 @@ namespace RestSharpClient.Controllers
             _client = new RestClient("https://europe.api.riotgames.com");
         }
 
-        public List<string> SearchForMatchList(Summoner summoner)
+        public List<string> SearchForMatchList(Account account)
         {
             //sends a GET request to ""
 
-            RestRequest request = new RestRequest($"/lol/match/v5/matches/by-puuid/{summoner.Puuid}/ids");
+            RestRequest request = new RestRequest($"/lol/match/v5/matches/by-puuid/{account.Puuid}/ids");
 
             request.AddQueryParameter("api_key", _apiKeyFromConfig);
             request.AddQueryParameter("count", 95);
