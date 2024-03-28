@@ -1,16 +1,17 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+    background-color: #22223C;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 .body {
     overflow: auto;
@@ -23,6 +24,14 @@ html {
     justify-content: space-between;
 }
 
+div.lane-selection-container {
+    display: block;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-right: 10px;
+}
+
 div.wins-by-teammates-container,
 div.losses-by-enemies-container,
 div.losses-by-teammates-container,
@@ -33,6 +42,7 @@ div.wins-by-enemies-container {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    margin-right: 5px;
 }
 
 div.wins-by-teammates-container caption,

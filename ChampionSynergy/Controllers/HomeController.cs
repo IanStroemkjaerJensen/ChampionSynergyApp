@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using System.Collections;
 using Microsoft.AspNetCore.Http;
 
+
 namespace ChampionSynergy.Controllers
 {
     public class HomeController : Controller
@@ -19,8 +20,6 @@ namespace ChampionSynergy.Controllers
         private MatchController _matchClient = new MatchController();
         
         private int? teamId;
-
-        private Match match;
 
         List<Teammate> teammates = new List<Teammate>();
         List<Enemy> enemies = new List<Enemy>();
@@ -59,18 +58,15 @@ namespace ChampionSynergy.Controllers
         public IActionResult SearchSummoner(Account accountModel)
         {
             Account account = _summonerClient.SearchForPuuid(accountModel.Name, accountModel.Tagline);
-
-            _matchClient.SearchForMatchList(account);
             
             List<string> matchList = _matchClient.SearchForMatchList(account);
 
-            foreach (string matchInList in matchList)
+          
+
+            foreach (string matchFromList in matchList)
             {
                 Match match = new Match();
-                match = _matchClient.SearchMatch(matchInList);
-
-                //HttpContext.Session.SetObject("MatchData", match);
-
+                match = _matchClient.SearchMatch(matchFromList);
 
                 for (int i = 0; i < match.Info.Participants.Count; i++)
                 {
@@ -105,9 +101,10 @@ namespace ChampionSynergy.Controllers
                                 }
                             else
                             {
+                                teammate.Wins++;
+                                teammate.Played++;  
                                 teammates.Add(teammate);
                             }
-
                         }
                       
                         if (teammate.Win != true)
@@ -121,6 +118,8 @@ namespace ChampionSynergy.Controllers
                                 }
                             else
                             {
+                                teammate.Losses++; 
+                                teammate.Played++;
                                 teammates.Add(teammate);
                             }
                         }                             
@@ -149,6 +148,8 @@ namespace ChampionSynergy.Controllers
                             }
                             else
                             {
+                                enemy.Wins++;   
+                                enemy.Played++;
                                 enemies.Add(enemy);
                             }
                         }
@@ -163,6 +164,8 @@ namespace ChampionSynergy.Controllers
                             }
                             else
                             {
+                                enemy.Losses++;
+                                enemy.Played++;
                                 enemies.Add(enemy);
                             }
                         }
@@ -174,117 +177,140 @@ namespace ChampionSynergy.Controllers
             }
 
             teammatesSortedByWins = teammates.OrderByDescending(t => t.Wins).ToList();
-            enemiesSortedByLosses = enemies.OrderByDescending(t => t.Losses).ToList();
-            enemiesSortedByWins = enemies.OrderByDescending(t => t.Wins).ToList();
             teammatesSortedByLosses = teammates.OrderByDescending(t => t.Losses).ToList();
+            enemiesSortedByWins = enemies.OrderByDescending(t => t.Wins).ToList();
+            enemiesSortedByLosses = enemies.OrderByDescending(t => t.Losses).ToList();
+            
 
             var topSevenWinsByTeammates = teammatesSortedByWins.Take(7);
-            var topSevenLossesByEnemies = enemiesSortedByLosses.Take(7);
-            var topSevenWinsByEnemies = enemiesSortedByWins.Take(7);
             var topSevenLossesByTeammates = teammatesSortedByLosses.Take(7);
+            var topSevenWinsByEnemies = enemiesSortedByWins.Take(7);
+            var topSevenLossesByEnemies = enemiesSortedByLosses.Take(7);
             
             ViewBag.winsByTeammates = topSevenWinsByTeammates;
-            ViewBag.lossesByEnemies = topSevenLossesByEnemies;
-            ViewBag.winsByEnemies = topSevenWinsByEnemies;
             ViewBag.lossesByTeammates = topSevenLossesByTeammates;
+            ViewBag.winsByEnemies = topSevenWinsByEnemies;
+            ViewBag.lossesByEnemies = topSevenLossesByEnemies;
+
+            ViewBag.Name = account.Name;
+            ViewBag.Tagline = account.Tagline;
 
             return View();
         }
-        /*
-         * To be continued
-         * Needs to find a way to pass variable from 1 actionresult method to another without redirection and in different requests
-         * 
-        public IActionResult Jungle()
+        
+         // To be continued
+         // Needs to find a way to pass variable from 1 actionresult method to another without redirection and in different requests
+         
+        public IActionResult SearchJungleOnly(Account accountModel)
         {
+            Account account = _summonerClient.SearchForPuuid(accountModel.Name, accountModel.Tagline);
 
+            List<string> matchList = _matchClient.SearchForMatchList(account);
 
-            Match matchFromSession = HttpContext.Session.GetObject<Match>("MatcData");
+            foreach (string matchFromList in matchList)
+            {
+                Match match = new Match();
+                match = _matchClient.SearchMatch(matchFromList);
 
-            for (int i = 0; i < matchFromSession.Info.Participants.Count; i++)
+                for (int i = 0; i < match.Info.Participants.Count; i++)
                 {
 
+                    if (match.Info.Participants[i].SummonerName == accountModel.Name)
+                    {
+                        teamId = match.Info.Participants[i].TeamId;
+                        continue;
+                    }
 
-                     if(matchFromSession.Info.Participants[i].TeamId == teamId)
-                     {
+                    if (match.Info.Participants[i].TeamId == teamId & match.Info.Participants[i].TeamPosition == "JUNGLE")
+                    {
 
                         Teammate teammate = new Teammate();
-                        teammate.TeamId = matchFromSession.Info.Participants[i].TeamId;
-                        teammate.SummonerName = matchFromSession.Info.Participants[i].SummonerName;
-                        teammate.ChampionName = matchFromSession.Info.Participants[i].ChampionName;
-                        teammate.Win = matchFromSession.Info.Participants[i].Win;
-                        teammate.Role = matchFromSession.Info.Participants[i].TeamPosition;
+                        teammate.TeamId = match.Info.Participants[i].TeamId;
+                        teammate.SummonerName = match.Info.Participants[i].SummonerName;
+                        teammate.ChampionName = match.Info.Participants[i].ChampionName;
+                        teammate.Win = match.Info.Participants[i].Win;
+                        teammate.Role = match.Info.Participants[i].TeamPosition;
                         teammate.Wins = 0;
                         teammate.Losses = 0;
                         teammate.Played = 0;
 
-                        if (teammate.Role =="Jungle" && teammate.Win == true)
+                        if (teammate.Win == true)
                         {
-                            Teammate existingTeammate = teammates.FirstOrDefault(t => t.ChampionName == teammate.ChampionName);
-                            if (existingTeammate != null)
+                            Teammate alreadyExistingChampionTeammate = junglerTeammates.FirstOrDefault(t => t.ChampionName == teammate.ChampionName);
+                            if (alreadyExistingChampionTeammate != null)
                             {
-                                existingTeammate.Wins++;
-                                existingTeammate.Played++;
+                                alreadyExistingChampionTeammate.Wins++;
+                                alreadyExistingChampionTeammate.Played++;
                             }
                             else
                             {
+                                teammate.Wins++;
+                                teammate.Played++;
                                 junglerTeammates.Add(teammate);
                             }
 
                         }
 
-                        if (teammate.Role == "Jungle" && teammate.Win != true)
+
+                        if (teammate.Win != true)
                         {
 
-                            Teammate existingTeammate = teammates.FirstOrDefault(t => t.ChampionName == teammate.ChampionName);
-                            if (existingTeammate != null)
+                            Teammate alreadyExistingChampionTeammate = junglerTeammates.FirstOrDefault(t => t.ChampionName == teammate.ChampionName);
+                            if (alreadyExistingChampionTeammate != null)
                             {
-                                existingTeammate.Losses++;
-                                existingTeammate.Played++;
+                                alreadyExistingChampionTeammate.Losses++;
+                                alreadyExistingChampionTeammate.Played++;
                             }
                             else
                             {
+                                teammate.Losses++;
+                                teammate.Played++;
                                 junglerTeammates.Add(teammate);
                             }
                         }
                     }
 
-                    if (matchFromSession.Info.Participants[i].TeamId != teamId)
+                    if (match.Info.Participants[i].TeamId != teamId & match.Info.Participants[i].TeamPosition == "JUNGLE")
                     {
                         Enemy enemy = new Enemy();
-                        enemy.TeamId = matchFromSession.Info.Participants[i].TeamId;
-                        enemy.SummonerName = matchFromSession.Info.Participants[i].SummonerName;
-                        enemy.ChampionName = matchFromSession.Info.Participants[i].ChampionName;
-                        enemy.Win = matchFromSession.Info.Participants[i].Win;
-                        enemy.Role = matchFromSession.Info.Participants[i].TeamPosition;
+                        enemy.TeamId = match.Info.Participants[i].TeamId;
+                        enemy.SummonerName = match.Info.Participants[i].SummonerName;
+                        enemy.ChampionName = match.Info.Participants[i].ChampionName;
+                        enemy.Win = match.Info.Participants[i].Win;
+                        enemy.Role = match.Info.Participants[i].TeamPosition;
                         enemy.Wins = 0;
                         enemy.Losses = 0;
                         enemy.Played = 0;
 
 
-                        if (enemy.Role == "Jungle" && enemy.Win == true)
+                        if (enemy.Win == true)
                         {
-                            Enemy existingEnemy = enemies.FirstOrDefault(e => e.ChampionName == enemy.ChampionName);
-                            if (existingEnemy != null)
+                            Enemy alreadyExistingChampionEnemy = junglerEnemies.FirstOrDefault(e => e.ChampionName == enemy.ChampionName);
+                            if (alreadyExistingChampionEnemy != null)
                             {
-                                existingEnemy.Wins++;
-                                existingEnemy.Played++;
+                                alreadyExistingChampionEnemy.Wins++;
+                                alreadyExistingChampionEnemy.Played++;
                             }
                             else
                             {
+                                enemy.Wins++;
+                                enemy.Played++;
                                 junglerEnemies.Add(enemy);
                             }
                         }
 
-                        if (enemy.Role == "Jungle" && enemy.Win != true)
+                        if (enemy.Win != true)
                         {
-                            Enemy existingEnemy = enemies.FirstOrDefault(e => e.ChampionName == enemy.ChampionName);
-                            if (existingEnemy != null)
+                            Enemy alreadyExistingChampionEnemy = junglerEnemies.FirstOrDefault(e => e.ChampionName == enemy.ChampionName);
+                            if (alreadyExistingChampionEnemy != null)
                             {
-                                existingEnemy.Losses++;
-                                existingEnemy.Played++;
+                                alreadyExistingChampionEnemy.Losses++;
+                                alreadyExistingChampionEnemy.Played++;
                             }
                             else
                             {
+                                enemy.Losses++;
+                                enemy.Played++; 
                                 junglerEnemies.Add(enemy);
                             }
                         }
@@ -292,26 +318,29 @@ namespace ChampionSynergy.Controllers
                     }
 
                 }
-
+            }
+                
             junglerTeammatesSortedByWins = junglerTeammates.OrderByDescending(t => t.Wins).ToList();
-            junglerEnemiesSortedByLosses = junglerEnemies.OrderByDescending(t => t.Losses).ToList();
-            junglerEnemiesSortedByWins = junglerEnemies.OrderByDescending(t => t.Wins).ToList();
             junglerTeammatesSortedByLosses = junglerTeammates.OrderByDescending(t => t.Losses).ToList();
+            junglerEnemiesSortedByWins = junglerEnemies.OrderByDescending(t => t.Wins).ToList();
+            junglerEnemiesSortedByLosses = junglerEnemies.OrderByDescending(t => t.Losses).ToList();
 
             var topSevenWinsByJunglerTeammates = junglerTeammatesSortedByWins.Take(7);
-            var topSevenLossesByJunglerEnemies = junglerEnemiesSortedByLosses.Take(7);
-            var topSevenWinsByJunglerEnemies = junglerEnemiesSortedByWins.Take(7);
             var topSevenLossesByJunglerTeammates = junglerTeammatesSortedByLosses.Take(7);
+            var topSevenWinsByJunglerEnemies = junglerEnemiesSortedByWins.Take(7);
+            var topSevenLossesByJunglerEnemies = junglerEnemiesSortedByLosses.Take(7);
 
             ViewBag.winsByJunglerTeammates = topSevenWinsByJunglerTeammates;
-            ViewBag.lossesByJunglerEnemies = topSevenLossesByJunglerEnemies;
-            ViewBag.winsByJunglerEnemies = topSevenWinsByJunglerEnemies;
             ViewBag.lossesByJunglerTeammates = topSevenLossesByJunglerTeammates;
+            ViewBag.winsByJunglerEnemies = topSevenWinsByJunglerEnemies;
+            ViewBag.lossesByJunglerEnemies = topSevenLossesByJunglerEnemies;
+            
 
             return View();
         }
-*/
+
             [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
