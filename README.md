@@ -7,7 +7,7 @@
 - Things Learned. 
 
 # Overview
-Webapp that pulls match history/data, on the searched Summoner name/Profile name, from Riot's league of legends API and displays which characters on your team and the enemy team you win or lose the most against.
+Webapp that pulls match history/data, on the searched Summoner name/Profile name, from Riot's league of legends API and displays which characters on your team and the enemy team you win or lose the most against, making it easier to make decisions in lobbies of what to ban or dodge
 
 # Prerequisites 
 you will need a windows machine, visual studio (not code) a browser and an Riot API key
