@@ -9,8 +9,12 @@ namespace RestSharpClient.Models
 {
     public class Participant
     {
+        /* Deprecated
         [JsonPropertyName("summonerName")]
         public string? SummonerName { get; set; }
+        */
+        [JsonPropertyName("riotIdGameName")]
+        public string? riotIdGameName { get; set; }
 
         [JsonPropertyName("teamId")]
         public int? TeamId { get; set; }

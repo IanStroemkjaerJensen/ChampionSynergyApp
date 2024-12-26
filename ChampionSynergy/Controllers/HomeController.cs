@@ -83,7 +83,7 @@ namespace ChampionSynergy.Controllers
 
                 for (int i = 0; i < match.Info.Participants.Count; i++)
                 {
-                    if (match.Info.Participants[i].SummonerName == accountModel.Name)
+                    if (match.Info.Participants[i].riotIdGameName == accountModel.Name)
                     {
                         teamId = match.Info.Participants[i].TeamId;
 
@@ -96,7 +96,7 @@ namespace ChampionSynergy.Controllers
 
                         Teammate teammate = new Teammate();
                         teammate.TeamId = match.Info.Participants[i].TeamId;
-                        teammate.SummonerName = match.Info.Participants[i].SummonerName;
+                        teammate.SummonerName = match.Info.Participants[i].riotIdGameName;
                         teammate.ChampionName = match.Info.Participants[i].ChampionName;
                         teammate.Win = match.Info.Participants[i].Win;
                         teammate.Role = match.Info.Participants[i].TeamPosition;
@@ -142,7 +142,7 @@ namespace ChampionSynergy.Controllers
                     {
                         Enemy enemy = new Enemy();
                         enemy.TeamId = match.Info.Participants[i].TeamId;
-                        enemy.SummonerName = match.Info.Participants[i].SummonerName;
+                        enemy.SummonerName = match.Info.Participants[i].riotIdGameName;
                         enemy.ChampionName = match.Info.Participants[i].ChampionName;
                         enemy.Win = match.Info.Participants[i].Win;
                         enemy.Role = match.Info.Participants[i].TeamPosition;
@@ -228,7 +228,7 @@ namespace ChampionSynergy.Controllers
                 for (int i = 0; i < match.Info.Participants.Count; i++)
                 {
 
-                    if (match.Info.Participants[i].SummonerName == accountModel.Name)
+                    if (match.Info.Participants[i].riotIdGameName == accountModel.Name)
                     {
                         teamId = match.Info.Participants[i].TeamId;
                         continue;
@@ -239,7 +239,7 @@ namespace ChampionSynergy.Controllers
 
                         Teammate teammate = new Teammate();
                         teammate.TeamId = match.Info.Participants[i].TeamId;
-                        teammate.SummonerName = match.Info.Participants[i].SummonerName;
+                        teammate.SummonerName = match.Info.Participants[i].riotIdGameName;
                         teammate.ChampionName = match.Info.Participants[i].ChampionName;
                         teammate.Win = match.Info.Participants[i].Win;
                         teammate.Role = match.Info.Participants[i].TeamPosition;
@@ -287,7 +287,7 @@ namespace ChampionSynergy.Controllers
                     {
                         Enemy enemy = new Enemy();
                         enemy.TeamId = match.Info.Participants[i].TeamId;
-                        enemy.SummonerName = match.Info.Participants[i].SummonerName;
+                        enemy.SummonerName = match.Info.Participants[i].riotIdGameName;
                         enemy.ChampionName = match.Info.Participants[i].ChampionName;
                         enemy.Win = match.Info.Participants[i].Win;
                         enemy.Role = match.Info.Participants[i].TeamPosition;
@@ -366,7 +366,7 @@ namespace ChampionSynergy.Controllers
                 for (int i = 0; i < match.Info.Participants.Count; i++)
                 {
 
-                    if (match.Info.Participants[i].SummonerName == accountModel.Name)
+                    if (match.Info.Participants[i].riotIdGameName == accountModel.Name)
                     {
                         teamId = match.Info.Participants[i].TeamId;
                         continue;
@@ -377,7 +377,7 @@ namespace ChampionSynergy.Controllers
 
                         Teammate teammate = new Teammate();
                         teammate.TeamId = match.Info.Participants[i].TeamId;
-                        teammate.SummonerName = match.Info.Participants[i].SummonerName;
+                        teammate.SummonerName = match.Info.Participants[i].riotIdGameName;
                         teammate.ChampionName = match.Info.Participants[i].ChampionName;
                         teammate.Win = match.Info.Participants[i].Win;
                         teammate.Role = match.Info.Participants[i].TeamPosition;
@@ -425,7 +425,7 @@ namespace ChampionSynergy.Controllers
                     {
                         Enemy enemy = new Enemy();
                         enemy.TeamId = match.Info.Participants[i].TeamId;
-                        enemy.SummonerName = match.Info.Participants[i].SummonerName;
+                        enemy.SummonerName = match.Info.Participants[i].riotIdGameName;
                         enemy.ChampionName = match.Info.Participants[i].ChampionName;
                         enemy.Win = match.Info.Participants[i].Win;
                         enemy.Role = match.Info.Participants[i].TeamPosition;

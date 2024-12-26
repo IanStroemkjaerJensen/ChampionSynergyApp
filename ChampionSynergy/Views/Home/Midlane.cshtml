@@ -19,7 +19,7 @@
     <div class="container-flex">
         <div class="wins-by-teammates-container">
             <table>
-                <caption>Midlane teammates you win a lot with</caption>
+                <caption>Midlaners you win a lot with</caption>
                 <thead>
                     <tr>
                         <th>Vs.</th>
@@ -58,49 +58,9 @@
             </table>
         </div>
 
-
-
-        <div class="losses-by-enemies-container">
-            <table>
-                <caption>Midlaner enemies you win a lot against</caption>
-                <thead>
-                    <tr>
-                        <th>Vs.</th>
-                        <th>Champion Name</th>
-                        <th>Played</th>
-                        <th>Winrate</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var enemy in ViewBag.lossesByMidlaneEnemies)
-                    {
-                        <tr>
-                            <td>
-                                <img src="@($"/championPictures/{enemy.ChampionName}.jpg")" width="50" height="50">
-                            </td>
-                            <td>@enemy.ChampionName</td>
-                            <td>@enemy.Played</td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar"
-                                         role="progressbar"
-                                         style="@($"width: {(enemy.Losses * 100.0) / enemy.Played:0}%;")"
-                                         aria-valuenow="0"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100">
-                                        @($"{(enemy.Losses * 100.0) / enemy.Played:0}%")
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-
         <div class="losses-by-teammates-container">
             <table>
-                <caption>Midlaner teammates you lose a lot with</caption>
+                <caption>Midlaners you lose a lot with</caption>
                 <thead>
                     <tr>
                         <th>Vs.</th>
@@ -136,9 +96,50 @@
             </table>
         </div>
 
+
+
+        <div class="losses-by-enemies-container">
+            <table>
+                <caption>Midlaners you win a lot against</caption>
+                <thead>
+                    <tr>
+                        <th>Vs.</th>
+                        <th>Champion Name</th>
+                        <th>Played</th>
+                        <th>Winrate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var enemy in ViewBag.lossesByMidlaneEnemies)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@($"/championPictures/{enemy.ChampionName}.jpg")" width="50" height="50">
+                            </td>
+                            <td>@enemy.ChampionName</td>
+                            <td>@enemy.Played</td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar"
+                                         role="progressbar"
+                                         style="@($"width: {(enemy.Losses * 100.0) / enemy.Played:0}%;")"
+                                         aria-valuenow="0"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100">
+                                        @($"{(enemy.Losses * 100.0) / enemy.Played:0}%")
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
         <div class="wins-by-enemies-container">
             <table>
-                <caption>Midlaner enemies you lose a lot against</caption>
+                <caption>Midlaners you lose a lot against</caption>
                 <thead>
                     <tr>
                         <th>Vs.</th>
