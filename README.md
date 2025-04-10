@@ -24,7 +24,7 @@ open the project in visual studio
 1) select single startup project 
 2) select the ChampionSynergy -> set to start
 3) click apply or ok. 
-4) Go into the ApiKeyExample.txt file in the Config folder in the RestSharpClient project and paste your API Key text into the file instead of the text that is there and hit ctrl + s 
+4) Go into the ApiKeyExample.txt file in the Config folder in the RestSharpClient project and paste your API key into the file instead of the key example that is there and hit ctrl + s 
 4) click ctrl + f5 to start the project without debuggin. 
 
 # Things i learned about
