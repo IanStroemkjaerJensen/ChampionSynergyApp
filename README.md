@@ -14,7 +14,7 @@ Webapp that pulls match history/data, on the searched Summoner name/Profile name
 
 
 # Prerequisites 
-you will need a windows machine, visual studio (not code) a browser and a Riot API key that you input in the config file
+You will need a windows machine, visual studio (not code) a browser and a Riot API key that you input in the config file
 
 # Usage
 open the project in visual studio
