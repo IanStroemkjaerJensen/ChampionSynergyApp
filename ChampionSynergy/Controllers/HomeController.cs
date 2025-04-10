@@ -195,15 +195,15 @@ namespace ChampionSynergy.Controllers
             enemiesSortedByLosses = enemies.OrderByDescending(t => t.Losses).ToList();
 
 
-            var topSevenWinsByTeammates = teammatesSortedByWins.Take(7);
-            var topSevenLossesByTeammates = teammatesSortedByLosses.Take(7);
-            var topSevenWinsByEnemies = enemiesSortedByWins.Take(7);
-            var topSevenLossesByEnemies = enemiesSortedByLosses.Take(7);
+            var topTenWinsByTeammates = teammatesSortedByWins.Take(10);
+            var topTenLossesByTeammates = teammatesSortedByLosses.Take(10);
+            var topTenWinsByEnemies = enemiesSortedByWins.Take(10);
+            var topTenLossesByEnemies = enemiesSortedByLosses.Take(10);
 
-            ViewBag.winsByTeammates = topSevenWinsByTeammates;
-            ViewBag.lossesByTeammates = topSevenLossesByTeammates;
-            ViewBag.winsByEnemies = topSevenWinsByEnemies;
-            ViewBag.lossesByEnemies = topSevenLossesByEnemies;
+            ViewBag.winsByTeammates = topTenWinsByTeammates;
+            ViewBag.lossesByTeammates = topTenLossesByTeammates;
+            ViewBag.winsByEnemies = topTenWinsByEnemies;
+            ViewBag.lossesByEnemies = topTenLossesByEnemies;
 
             ViewBag.Name = account.Name;
             ViewBag.Tagline = account.Tagline;
@@ -211,8 +211,8 @@ namespace ChampionSynergy.Controllers
             return View();
         }
 
-        // To be continued
-        // Needs to find a way to pass variable from 1 actionresult method to another without redirection and in different requests
+        // Todo:
+        // Need to find a good way to pass variable from 1 actionresult method to another without redirection and in different requests, in a stateless architecture
 
         public IActionResult SearchJungleOnly(Account accountModel)
         {
@@ -351,6 +351,9 @@ namespace ChampionSynergy.Controllers
 
             return View();
         }
+
+        // Todo:
+        // Need to find a good way to pass variable from 1 actionresult method to another without redirection and in different requests, in a stateless architecture
 
         public IActionResult Midlane(Account accountModel)
         {
