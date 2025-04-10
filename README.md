@@ -1,5 +1,5 @@
 # ChampionSynergy webapp
-Little for for fun project that takes your last 100 matches from your match history in league of legends from the Riot API and shows you which champions you do well with and against from both teams and displays them in a table
+Little for for fun project that takes your last 100 matches from your match history in league of legends from the Riot API and shows your top 10 champions you do well with and against from both teams and displays them in a table
 
 # Table of content
 - Overview
